@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "name": "User 1"
+    },
+    {
+      "name": "Admin",
+      "perms": 7
+    },
+    {
+      "name": "User 2"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "network": {
+      "hostname": "server1"
+    },
+    "shares": [
+      {
+        "name": "Video",
+        "path": "/video"
+      },
+      {
+        "name": "Files",
+        "path": "/files",
+        "priveleges": {
+          "user": "user1",
+          "perms": 7
+        }
+      },
+      {
+        "name": "Logs",
+        "path": "/logs"
+      }
+    ]
+  }
+}
