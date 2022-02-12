@@ -368,9 +368,9 @@ packages:
   yaml_writer:
     dependency: "direct main"
     description:
-      name: yaml_writer
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../local_packages/yaml_writer"
+      relative: true
+    source: path
     version: "1.0.1"
 sdks:
   dart: ">=2.15.1 <3.0.0"

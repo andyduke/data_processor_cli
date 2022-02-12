@@ -20,4 +20,6 @@ dependencies:
   json2yaml: ^3.0.0
   yaml: ^3.1.0
   pretty_json: ^2.0.0
-  yaml_writer: ^1.0.1
+  #yaml_writer: ^1.0.1
+  yaml_writer:
+    path: ../local_packages/yaml_writer
