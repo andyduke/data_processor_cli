@@ -3,6 +3,7 @@ import 'package:data_processor/formatters/formatter.dart';
 import 'package:data_processor/utils/map_flatten.dart';
 
 class CSVFormatter extends DataFormatter {
+  final List<String>? headers;
   final String columnSeparator;
   final String rowSeparator;
   final String textQuote;
@@ -10,6 +11,7 @@ class CSVFormatter extends DataFormatter {
   CSVFormatter(
     data,
     int indent, {
+    this.headers,
     this.columnSeparator = defaultFieldDelimiter,
     this.rowSeparator = defaultEol,
     this.textQuote = defaultTextDelimiter,
@@ -49,39 +51,49 @@ class CSVFormatter extends DataFormatter {
   List<List> _transform(List data) {
     if (data.isEmpty) return [];
 
-    final headers = <String>[];
-    for (var row in data) {
-      if (row is! Map<String, dynamic>) {
-        throw Exception('Data is not map.');
-      }
+    late final List<String> _headers;
+    if (headers == null) {
+      // Build headers from data
+      _headers = <String>[];
+      for (var row in data) {
+        if (row is! Map<String, dynamic>) {
+          throw Exception('Data is not map.');
+        }
 
-      final rowHeaders = row.keys.toList(growable: false);
-      for (var column in rowHeaders) {
-        if (!headers.contains(column)) {
-          headers.add(column);
+        final rowHeaders = row.keys.toList(growable: false);
+        for (var column in rowHeaders) {
+          if (!_headers.contains(column)) {
+            _headers.add(column);
+          }
         }
       }
+    } else {
+      _headers = headers!;
     }
 
     final rows = [];
     for (var row in data) {
       var item = [];
-      for (var column in headers) {
+      for (var column in _headers) {
         if (row.containsKey(column)) {
           item.add(row[column]);
         } else {
-          item.add(null);
+          item.add('');
         }
       }
 
       // Remove trailing nulls
-      item = item.reversed.skipWhile((value) => value == null).toList().reversed.toList();
+      item = item.reversed
+          .skipWhile((value) => ((value is String && value.isEmpty) || value == null))
+          .toList()
+          .reversed
+          .toList();
 
       rows.add(item);
     }
 
     return [
-      headers,
+      _headers,
       ...rows,
     ];
   }

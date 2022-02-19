@@ -17,7 +17,8 @@ class OutputCSVOptions implements SummaryOutput {
   });
 
   OutputCSVOptions.fromArguments(ArgResults arguments)
-      : headers = arguments['output-csv-headers'],
+      : headers = (arguments['output-csv-headers'] as String?)
+            ?.split(arguments['output-csv-col-sep'] ?? defaultFieldDelimiter),
         columnSeparator = StringEscape(arguments['output-csv-col-sep'])?.unescape() ?? defaultFieldDelimiter,
         rowSeparator = StringEscape(arguments['output-csv-row-sep'])?.unescape() ?? defaultEol,
         textQuote = arguments['output-csv-text-quote'] ?? defaultTextDelimiter;

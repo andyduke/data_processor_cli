@@ -98,7 +98,7 @@ class DataProcessor {
           columnSeparator: options.outputCSV.columnSeparator,
           rowSeparator: options.outputCSV.rowSeparator,
           textQuote: options.outputCSV.textQuote,
-          // headers: options.outputCSV.headers, // TODO:
+          headers: options.outputCSV.headers,
         );
         break;
 
