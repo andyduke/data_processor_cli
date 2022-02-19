@@ -1,3 +1,4 @@
+import 'package:data_processor/data_processor_options.dart';
 import 'package:data_processor/formatters/csv_formatter.dart';
 import 'package:data_processor/formatters/formatter.dart';
 import 'package:data_processor/formatters/json_formatter.dart';
@@ -22,6 +23,7 @@ class DataProcessor {
   late final String outputFormat;
   final String? outputTemplate;
   final int outputIndent;
+  final DataProcessorOptions options;
 
   DataProcessor({
     required this.data,
@@ -30,6 +32,7 @@ class DataProcessor {
     String? outputFormat,
     this.outputTemplate,
     this.outputIndent = defaultOutputIndent,
+    this.options = const DataProcessorOptions(),
   }) {
     this.outputFormat = outputFormat ?? inputFormat;
   }
@@ -57,7 +60,14 @@ class DataProcessor {
         break;
 
       case 'csv':
-        parser = CSVParser(data);
+        parser = CSVParser(
+          data,
+          columnSeparator: options.inputCSV.columnSeparator,
+          rowSeparator: options.inputCSV.rowSeparator,
+          textQuote: options.inputCSV.textQuote,
+          headers: options.inputCSV.headers,
+          flatHeaders: options.inputCSV.flatHeaders,
+        );
         break;
 
       case 'tsv':

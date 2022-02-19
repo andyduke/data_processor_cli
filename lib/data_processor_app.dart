@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:csv/csv.dart';
 import 'package:data_processor/data_processor.dart';
+import 'package:data_processor/data_processor_options.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
@@ -15,7 +17,8 @@ class DataProcessorApp extends CliApp {
   final String copyright = 'Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>';
 
   @override
-  late final String usage = '''Usage: $executable <query> [<filename>] [options]
+  late final String usage =
+      '''Usage: $executable <query> [<filename>] [options]
        echo <data> | $executable <query> [options]
 ''';
 
@@ -29,6 +32,8 @@ class DataProcessorApp extends CliApp {
   String outputFormat = 'auto';
   String? template;
   int? outputIndent;
+
+  DataProcessorInputCSVOptions? inputCSVOptions;
 
   DataProcessorApp([List<String> args = const []]) : super(args);
 
@@ -76,6 +81,10 @@ class DataProcessorApp extends CliApp {
       valueHelp: 'template file',
     );
 
+    parser.addSeparator('--- CSV Input options -------\n');
+
+    DataProcessorInputCSVOptions.cliOptions(parser);
+
     parser.addSeparator('--- Other -------------------\n');
 
     parser.addFlag(
@@ -120,6 +129,10 @@ class DataProcessorApp extends CliApp {
     template = arguments['template'];
     outputFilename = arguments['output-file'];
     outputIndent = int.tryParse(arguments['indent']) ?? DataProcessor.defaultOutputIndent;
+
+    if (inputFormat == 'csv') {
+      inputCSVOptions = DataProcessorInputCSVOptions.fromArguments(arguments);
+    }
 
     return argsRest.isNotEmpty;
   }
@@ -184,6 +197,12 @@ class DataProcessorApp extends CliApp {
     }
     // logger.trace(' - Input format: $inputFormat');
 
+    if (inputCSVOptions != null) {
+      logger.trace(' - Input CSV column separator: ${inputCSVOptions!.columnSeparator}');
+      logger.trace(' - Input CSV row separator: ${inputCSVOptions!.rowSeparator}');
+      logger.trace(' - Input CSV text quote: ${inputCSVOptions!.textQuote}');
+    }
+
     if (outputFilename == null) {
       logger.trace(' - Output: stdout ($outputFormat)');
     } else {
@@ -206,6 +225,9 @@ class DataProcessorApp extends CliApp {
       outputFormat: outputFormat,
       outputTemplate: outputTemplate,
       outputIndent: outputIndent!,
+      options: DataProcessorOptions(
+        inputCSV: inputCSVOptions ?? const DataProcessorInputCSVOptions(),
+      ),
     );
 
     final output = await processor.process();

@@ -23,3 +23,4 @@ dependencies:
   #yaml_writer: ^1.0.1
   yaml_writer:
     path: ../local_packages/yaml_writer
+  csv: ^5.0.1
