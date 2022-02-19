@@ -1,7 +1,10 @@
 import 'dart:io';
-import 'package:csv/csv.dart';
 import 'package:data_processor/data_processor.dart';
 import 'package:data_processor/data_processor_options.dart';
+import 'package:data_processor/options/csv/input.dart';
+import 'package:data_processor/options/csv/output.dart';
+import 'package:data_processor/options/tsv/input.dart';
+import 'package:data_processor/options/tsv/output.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
@@ -33,7 +36,11 @@ class DataProcessorApp extends CliApp {
   String? template;
   int? outputIndent;
 
-  DataProcessorInputCSVOptions? inputCSVOptions;
+  InputCSVOptions? inputCSVOptions;
+  OutputCSVOptions? outputCSVOptions;
+
+  InputTSVOptions? inputTSVOptions;
+  OutputTSVOptions? outputTSVOptions;
 
   DataProcessorApp([List<String> args = const []]) : super(args);
 
@@ -82,8 +89,16 @@ class DataProcessorApp extends CliApp {
     );
 
     parser.addSeparator('--- CSV Input options -------\n');
+    InputCSVOptions.cliOptions(parser);
 
-    DataProcessorInputCSVOptions.cliOptions(parser);
+    parser.addSeparator('--- CSV Output options ------\n');
+    OutputCSVOptions.cliOptions(parser);
+
+    parser.addSeparator('--- TSV Input options -------\n');
+    InputTSVOptions.cliOptions(parser);
+
+    parser.addSeparator('--- TSV Output options ------\n');
+    OutputTSVOptions.cliOptions(parser);
 
     parser.addSeparator('--- Other -------------------\n');
 
@@ -131,7 +146,13 @@ class DataProcessorApp extends CliApp {
     outputIndent = int.tryParse(arguments['indent']) ?? DataProcessor.defaultOutputIndent;
 
     if (inputFormat == 'csv') {
-      inputCSVOptions = DataProcessorInputCSVOptions.fromArguments(arguments);
+      inputCSVOptions = InputCSVOptions.fromArguments(arguments);
+      outputCSVOptions = OutputCSVOptions.fromArguments(arguments);
+    }
+
+    if (inputFormat == 'tsv') {
+      inputTSVOptions = InputTSVOptions.fromArguments(arguments);
+      outputTSVOptions = OutputTSVOptions.fromArguments(arguments);
     }
 
     return argsRest.isNotEmpty;
@@ -197,11 +218,8 @@ class DataProcessorApp extends CliApp {
     }
     // logger.trace(' - Input format: $inputFormat');
 
-    if (inputCSVOptions != null) {
-      logger.trace(' - Input CSV column separator: ${inputCSVOptions!.columnSeparator}');
-      logger.trace(' - Input CSV row separator: ${inputCSVOptions!.rowSeparator}');
-      logger.trace(' - Input CSV text quote: ${inputCSVOptions!.textQuote}');
-    }
+    inputCSVOptions?.displaySummary(logger.trace);
+    inputTSVOptions?.displaySummary(logger.trace);
 
     if (outputFilename == null) {
       logger.trace(' - Output: stdout ($outputFormat)');
@@ -210,6 +228,9 @@ class DataProcessorApp extends CliApp {
     }
     // logger.trace(' - Output format: $outputFormat');
     logger.trace(' - Output indent: $outputIndent');
+
+    outputCSVOptions?.displaySummary(logger.trace);
+    outputTSVOptions?.displaySummary(logger.trace);
 
     logger.trace('');
   }
@@ -226,7 +247,10 @@ class DataProcessorApp extends CliApp {
       outputTemplate: outputTemplate,
       outputIndent: outputIndent!,
       options: DataProcessorOptions(
-        inputCSV: inputCSVOptions ?? const DataProcessorInputCSVOptions(),
+        inputCSV: inputCSVOptions ?? const InputCSVOptions(),
+        outputCSV: outputCSVOptions ?? const OutputCSVOptions(),
+        inputTSV: inputTSVOptions ?? const InputTSVOptions(),
+        outputTSV: outputTSVOptions ?? const OutputTSVOptions(),
       ),
     );
 

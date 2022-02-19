@@ -71,7 +71,13 @@ class DataProcessor {
         break;
 
       case 'tsv':
-        parser = TSVParser(data);
+        parser = TSVParser(
+          data,
+          // rowSeparator: options.inputTSV.rowSeparator,
+          // textQuote: options.inputTSV.textQuote,
+          // headers: options.inputTSV.headers,
+          // flatHeaders: options.inputTSV.flatHeaders,
+        );
         break;
 
       default:
@@ -98,11 +104,24 @@ class DataProcessor {
         break;
 
       case 'csv':
-        formatter = CSVFormatter(data, outputIndent);
+        formatter = CSVFormatter(
+          data,
+          outputIndent,
+          columnSeparator: options.outputCSV.columnSeparator,
+          rowSeparator: options.outputCSV.rowSeparator,
+          textQuote: options.outputCSV.textQuote,
+          // headers: options.outputCSV.headers, // TODO:
+        );
         break;
 
       case 'tsv':
-        formatter = TSVFormatter(data, outputIndent);
+        formatter = TSVFormatter(
+          data,
+          outputIndent,
+          rowSeparator: options.outputTSV.rowSeparator,
+          textQuote: options.outputTSV.textQuote,
+          // headers: options.outputTSV.headers, // TODO:
+        );
         break;
 
       case 'template':

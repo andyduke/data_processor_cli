@@ -9,7 +9,7 @@ class YamlFormatter extends DataFormatter {
   Future<String> format() async {
     // final yamlData = (data is! Map) ? {'data': data} : data;
     // final result = yaml.json2yaml(yamlData);
-    final result = yaml.YAMLWriter().write(data);
+    final result = yaml.YAMLWriter().write(data).trim();
     return result;
   }
 }

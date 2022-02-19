@@ -1,10 +1,17 @@
-import 'package:data_processor/formatters/formatter.dart';
+import 'package:csv/csv.dart';
+import 'package:data_processor/formatters/csv_formatter.dart';
 
-class TSVFormatter extends DataFormatter {
-  TSVFormatter(data, int indent) : super(data, indent);
-
-  @override
-  Future<String> format() {
-    throw UnimplementedError();
-  }
+class TSVFormatter extends CSVFormatter {
+  TSVFormatter(
+    data,
+    int indent, {
+    String rowSeparator = defaultEol,
+    String textQuote = defaultTextDelimiter,
+  }) : super(
+          data,
+          indent,
+          columnSeparator: '\t',
+          rowSeparator: rowSeparator,
+          textQuote: textQuote,
+        );
 }
