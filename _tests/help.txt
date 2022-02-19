@@ -1,0 +1,58 @@
+DataProcessor 1.0, Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>
+
+Flexible command-line data processor.
+
+Usage: dart "<query>" [<filename>] [options] > output_file
+       type <filename> | dart "<query>" [options] > output_file
+
+Options:
+  
+  --- Input and Output ---------
+  
+  -i, --input=<format>                    Input format (default: detect from
+                                          filename extension)
+                                          [json, yaml, xml, csv]
+  -o, --output=<format>                   Output format (default: input format)
+                                          [json, yaml, xml, csv, template]
+  -n, --indent=<indent>                   Output indent
+                                          (defaults to "2")
+  -f, --output-file=<file>                Output to <file> instead of stdout
+  -t, --template=<template file>          Output template file (output=template
+                                          only)
+  
+  
+  --- CSV Input options --------
+  
+      --input-csv-col-sep=<separator>     CSV column separator
+                                          (defaults to ",")
+      --input-csv-row-sep=<separator>     CSV row separator
+                                          (defaults to "<cr><lf>")
+      --input-csv-text-quote=<quote>      CSV text quote character
+                                          (defaults to """)
+      --input-csv-headers=<headers>       Headers of CSV data
+                                          (example "field 1","field 2")
+      --input-csv-flat-headers            Don't interpret dots (.) and square
+                                          brackets in header fields as nested
+                                          object or array identifiers at all
+  
+  
+  --- CSV Output options -------
+  
+      --output-csv-col-sep=<separator>    CSV column separator
+                                          (defaults to ",")
+      --output-csv-row-sep=<separator>    CSV row separator
+                                          (defaults to "<cr><lf>")
+      --output-csv-text-quote=<quote>     CSV text quote character
+                                          (defaults to """)
+      --output-csv-headers=<headers>      Header columns in order
+                                          (example "field 1","field 2")
+  
+  
+  --- Other --------------------
+  
+  -h, --help                              Print this usage information
+  -s, --silent                            Silent output
+  -v, --verbose                           Verbose output
+      --version                           Prints the version of the
+                                          DataProcessor
+  

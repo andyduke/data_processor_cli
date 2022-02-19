@@ -8,6 +8,7 @@ abstract class CliApp {
   abstract final String name;
   abstract final String version;
   abstract final String copyright;
+  final String? description = null;
   abstract final String usage;
 
   String get intro => '$name $version, $copyright';
@@ -97,6 +98,9 @@ abstract class CliApp {
   void displayIntro() {
     if (!silent) {
       logger.write('$intro\n\n');
+      if (description != null) {
+        logger.write('$description\n\n');
+      }
     }
   }
 

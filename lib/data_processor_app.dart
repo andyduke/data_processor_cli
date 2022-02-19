@@ -7,6 +7,8 @@ import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
 
+import 'package:cli_util/cli_logging.dart';
+
 class DataProcessorApp extends CliApp {
   @override
   final String name = 'DataProcessor';
@@ -18,9 +20,14 @@ class DataProcessorApp extends CliApp {
   final String copyright = 'Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>';
 
   @override
+  String get description => 'Flexible command-line data processor.';
+
+  String get catCommand => Platform.isWindows ? 'type' : 'cat';
+
+  @override
   late final String usage =
-      '''Usage: $executable <query> [<filename>] [options]
-       echo <data> | $executable <query> [options]
+      '''Usage: $executable "<query>" [<filename>] [options] > output_file
+       $catCommand <filename> | $executable "<query>" [options] > output_file
 ''';
 
   final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv'];
@@ -37,11 +44,21 @@ class DataProcessorApp extends CliApp {
   InputCSVOptions? inputCSVOptions;
   OutputCSVOptions? outputCSVOptions;
 
+  static const int separatorWidth = 30;
+  final ansi = Ansi(stdout.supportsAnsiEscapes);
+
   DataProcessorApp([List<String> args = const []]) : super(args);
+
+  String buildSeparator(String text) {
+    final len = text.length;
+    final trailing = ''.padRight(separatorWidth - 4 - 1 - len, '-');
+    final result = '\n--- ${ansi.emphasized(text)} $trailing\n';
+    return result;
+  }
 
   @override
   void setupOptions() {
-    parser.addSeparator('\n--- Input and Output --------\n');
+    parser.addSeparator(buildSeparator('Input and Output'));
 
     parser.addOption(
       'input',
@@ -83,13 +100,13 @@ class DataProcessorApp extends CliApp {
       valueHelp: 'template file',
     );
 
-    parser.addSeparator('--- CSV Input options -------\n');
+    parser.addSeparator(buildSeparator('CSV Input options'));
     InputCSVOptions.cliOptions(parser);
 
-    parser.addSeparator('--- CSV Output options ------\n');
+    parser.addSeparator(buildSeparator('CSV Output options'));
     OutputCSVOptions.cliOptions(parser);
 
-    parser.addSeparator('--- Other -------------------\n');
+    parser.addSeparator(buildSeparator('Other'));
 
     parser.addFlag(
       'help',
@@ -236,6 +253,10 @@ class DataProcessorApp extends CliApp {
     final output = await processor.process();
 
     logger.write(output);
+
+    if (verbose) {
+      logger.write('\n');
+    }
 
     return 0;
   }
