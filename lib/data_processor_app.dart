@@ -3,8 +3,6 @@ import 'package:data_processor/data_processor.dart';
 import 'package:data_processor/data_processor_options.dart';
 import 'package:data_processor/options/csv/input.dart';
 import 'package:data_processor/options/csv/output.dart';
-import 'package:data_processor/options/tsv/input.dart';
-import 'package:data_processor/options/tsv/output.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
@@ -25,8 +23,8 @@ class DataProcessorApp extends CliApp {
        echo <data> | $executable <query> [options]
 ''';
 
-  final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'tsv'];
-  final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'tsv', 'template'];
+  final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv'];
+  final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'template'];
 
   String query = '';
   String? inputFilename;
@@ -38,9 +36,6 @@ class DataProcessorApp extends CliApp {
 
   InputCSVOptions? inputCSVOptions;
   OutputCSVOptions? outputCSVOptions;
-
-  InputTSVOptions? inputTSVOptions;
-  OutputTSVOptions? outputTSVOptions;
 
   DataProcessorApp([List<String> args = const []]) : super(args);
 
@@ -94,12 +89,6 @@ class DataProcessorApp extends CliApp {
     parser.addSeparator('--- CSV Output options ------\n');
     OutputCSVOptions.cliOptions(parser);
 
-    parser.addSeparator('--- TSV Input options -------\n');
-    InputTSVOptions.cliOptions(parser);
-
-    parser.addSeparator('--- TSV Output options ------\n');
-    OutputTSVOptions.cliOptions(parser);
-
     parser.addSeparator('--- Other -------------------\n');
 
     parser.addFlag(
@@ -147,12 +136,10 @@ class DataProcessorApp extends CliApp {
 
     if (inputFormat == 'csv') {
       inputCSVOptions = InputCSVOptions.fromArguments(arguments);
-      outputCSVOptions = OutputCSVOptions.fromArguments(arguments);
     }
 
-    if (inputFormat == 'tsv') {
-      inputTSVOptions = InputTSVOptions.fromArguments(arguments);
-      outputTSVOptions = OutputTSVOptions.fromArguments(arguments);
+    if (outputFormat == 'csv') {
+      outputCSVOptions = OutputCSVOptions.fromArguments(arguments);
     }
 
     return argsRest.isNotEmpty;
@@ -189,10 +176,6 @@ class DataProcessorApp extends CliApp {
           inputFormat = 'csv';
           break;
 
-        case '.tsv':
-          inputFormat = 'tsv';
-          break;
-
         default:
           logger.stderr(
             'Error: It is not possible to determine "Input format" from the filename, you must specify it with an option --${parser.findByNameOrAlias('input')?.name}.',
@@ -219,7 +202,6 @@ class DataProcessorApp extends CliApp {
     // logger.trace(' - Input format: $inputFormat');
 
     inputCSVOptions?.displaySummary(logger.trace);
-    inputTSVOptions?.displaySummary(logger.trace);
 
     if (outputFilename == null) {
       logger.trace(' - Output: stdout ($outputFormat)');
@@ -230,7 +212,6 @@ class DataProcessorApp extends CliApp {
     logger.trace(' - Output indent: $outputIndent');
 
     outputCSVOptions?.displaySummary(logger.trace);
-    outputTSVOptions?.displaySummary(logger.trace);
 
     logger.trace('');
   }
@@ -249,8 +230,6 @@ class DataProcessorApp extends CliApp {
       options: DataProcessorOptions(
         inputCSV: inputCSVOptions ?? const InputCSVOptions(),
         outputCSV: outputCSVOptions ?? const OutputCSVOptions(),
-        inputTSV: inputTSVOptions ?? const InputTSVOptions(),
-        outputTSV: outputTSVOptions ?? const OutputTSVOptions(),
       ),
     );
 

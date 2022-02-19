@@ -1,6 +1,5 @@
 import 'package:data_processor/formatters/csv_formatter.dart';
 import 'package:data_processor/formatters/json_formatter.dart';
-import 'package:data_processor/formatters/tsv_formatter.dart';
 import 'package:data_processor/formatters/yaml_formatter.dart';
 import 'package:test/test.dart';
 
@@ -87,33 +86,6 @@ User 2''';
       csvData,
       2,
       columnSeparator: ';',
-      rowSeparator: '\n',
-    );
-    final result = await formatter.format();
-
-    expect(result, data);
-  });
-
-  test('TSV', () async {
-    final csvData = [
-      {
-        'name': 'User 1',
-      },
-      {
-        'name': 'Admin',
-        'perms': 7,
-      },
-      {
-        'name': 'User 2',
-      },
-    ];
-    final data = '''name\tperms
-User 1
-Admin\t7
-User 2''';
-    final formatter = TSVFormatter(
-      csvData,
-      2,
       rowSeparator: '\n',
     );
     final result = await formatter.format();

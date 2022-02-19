@@ -3,13 +3,11 @@ import 'package:data_processor/formatters/csv_formatter.dart';
 import 'package:data_processor/formatters/formatter.dart';
 import 'package:data_processor/formatters/json_formatter.dart';
 import 'package:data_processor/formatters/template_formatter.dart';
-import 'package:data_processor/formatters/tsv_formatter.dart';
 import 'package:data_processor/formatters/xml_formatter.dart';
 import 'package:data_processor/formatters/yaml_formatter.dart';
 import 'package:data_processor/parsers/csv_parser.dart';
 import 'package:data_processor/parsers/json_parser.dart';
 import 'package:data_processor/parsers/parser.dart';
-import 'package:data_processor/parsers/tsv_parser.dart';
 import 'package:data_processor/parsers/xml_parser.dart';
 import 'package:data_processor/parsers/yaml_parser.dart';
 import 'package:jmespath/jmespath.dart' as jmespath;
@@ -70,16 +68,6 @@ class DataProcessor {
         );
         break;
 
-      case 'tsv':
-        parser = TSVParser(
-          data,
-          // rowSeparator: options.inputTSV.rowSeparator,
-          // textQuote: options.inputTSV.textQuote,
-          // headers: options.inputTSV.headers,
-          // flatHeaders: options.inputTSV.flatHeaders,
-        );
-        break;
-
       default:
         throw Exception('Error: unknown input format "$inputFormat".');
     }
@@ -111,16 +99,6 @@ class DataProcessor {
           rowSeparator: options.outputCSV.rowSeparator,
           textQuote: options.outputCSV.textQuote,
           // headers: options.outputCSV.headers, // TODO:
-        );
-        break;
-
-      case 'tsv':
-        formatter = TSVFormatter(
-          data,
-          outputIndent,
-          rowSeparator: options.outputTSV.rowSeparator,
-          textQuote: options.outputTSV.textQuote,
-          // headers: options.outputTSV.headers, // TODO:
         );
         break;
 

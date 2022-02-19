@@ -1,6 +1,7 @@
 import 'package:args/args.dart';
 import 'package:csv/csv.dart';
 import 'package:data_processor/options/summary_output.dart';
+import 'package:data_processor/utils/string.dart';
 
 class InputCSVOptions implements SummaryOutput {
   final List<String>? headers;
@@ -20,8 +21,8 @@ class InputCSVOptions implements SummaryOutput {
   InputCSVOptions.fromArguments(ArgResults arguments)
       : headers = arguments['input-csv-headers'],
         flatHeaders = arguments.wasParsed('input-csv-flat-headers'),
-        columnSeparator = arguments['input-csv-col-sep'] ?? defaultFieldDelimiter,
-        rowSeparator = arguments['input-csv-row-sep'] ?? defaultEol,
+        columnSeparator = StringEscape(arguments['input-csv-col-sep'])?.unescape() ?? defaultFieldDelimiter,
+        rowSeparator = StringEscape(arguments['input-csv-row-sep'])?.unescape() ?? defaultEol,
         textQuote = arguments['input-csv-text-quote'] ?? defaultTextDelimiter;
 
   static void cliOptions(ArgParser parser) {
@@ -36,7 +37,7 @@ class InputCSVOptions implements SummaryOutput {
       'input-csv-row-sep',
       help: 'CSV row separator',
       valueHelp: 'separator',
-      defaultsTo: defaultEol.replaceAll("\n", r"\n").replaceAll("\r", r"\r"),
+      defaultsTo: defaultEol.escape(),
     );
 
     parser.addOption(
@@ -63,10 +64,12 @@ class InputCSVOptions implements SummaryOutput {
 
   @override
   void displaySummary(void Function(String message) out) {
-    out(' - Input CSV column separator: $columnSeparator');
-    out(' - Input CSV row separator: $rowSeparator');
+    out(' - Input CSV column separator: ${columnSeparator.escape()}');
+    out(' - Input CSV row separator: ${rowSeparator.escape()}');
     out(' - Input CSV text quote: $textQuote');
-    out(' - Input CSV headers: $headers');
+    if (headers != null) {
+      out(' - Input CSV headers: $headers');
+    }
     out(' - Input CSV flat headers: ${flatHeaders ? 'yes' : 'no'}');
   }
 }
