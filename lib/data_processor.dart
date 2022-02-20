@@ -1,4 +1,4 @@
-import 'package:data_processor/data_processor_options.dart';
+import 'package:data_processor/options/data_processor_options.dart';
 import 'package:data_processor/formatters/csv_formatter.dart';
 import 'package:data_processor/formatters/formatter.dart';
 import 'package:data_processor/formatters/json_formatter.dart';
@@ -18,23 +18,22 @@ class DataProcessor {
   static const int defaultOutputIndent = DataFormatter.defaultIndent;
 
   final String data;
-  final String query;
-  final String inputFormat;
+  late final String query;
+  late final String inputFormat;
   late final String outputFormat;
-  final String? outputTemplate;
-  final int outputIndent;
+  late final String? outputTemplate;
+  late final int outputIndent;
   final DataProcessorOptions options;
 
   DataProcessor({
     required this.data,
-    this.query = '',
-    required this.inputFormat,
-    String? outputFormat,
     this.outputTemplate,
-    this.outputIndent = defaultOutputIndent,
-    this.options = const DataProcessorOptions(),
+    required this.options,
   }) {
-    this.outputFormat = outputFormat ?? inputFormat;
+    query = options.query;
+    inputFormat = options.inputFormat;
+    outputFormat = options.outputFormat;
+    outputIndent = options.outputIndent ?? defaultOutputIndent;
   }
 
   Future<String> process() async {

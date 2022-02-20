@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:csv/csv.dart';
 import 'package:data_processor/parsers/csv_parser.dart';
 import 'package:data_processor/parsers/json_parser.dart';
 import 'package:data_processor/parsers/toml_parser.dart';
