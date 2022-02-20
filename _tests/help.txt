@@ -11,9 +11,9 @@ Options:
   
   -i, --input=<format>                    Input format (default: detect from
                                           filename extension)
-                                          [json, yaml, xml, csv]
+                                          [json, yaml, xml, csv, toml]
   -o, --output=<format>                   Output format (default: input format)
-                                          [json, yaml, xml, csv, template]
+                                          [json, yaml, xml, csv, toml, template]
   -n, --indent=<indent>                   Output indent
                                           (defaults to "2")
   -f, --output-file=<file>                Output to <file> instead of stdout
@@ -46,6 +46,13 @@ Options:
                                           (defaults to """)
       --output-csv-headers=<headers>      Header columns in order
                                           (example "field 1","field 2")
+  
+  
+  --- Toml Output options ------
+  
+      --output-toml-root=<root>           The name of the root element if the
+                                          data is not a dictionary.
+                                          (defaults to "toml")
   
   
   --- Other --------------------

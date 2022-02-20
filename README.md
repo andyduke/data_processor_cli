@@ -4,4 +4,10 @@ Flexible command-line data processor.
 
 ## TODO
 
-- Input/Output format: INI
+- [ ] Input/Output format: XML
+- [ ] Input/Output format: INI
+- [x] Input/Output format: TOML
+- [ ] Refactor options (like CSV Input/Output options)
+- [ ] Help: Description
+- [ ] Help: Template guide (using a separate parameter?)
+- [ ] GitHub: Readme & Template guide

@@ -24,3 +24,4 @@ dependencies:
   yaml_writer:
     path: ../local_packages/yaml_writer
   csv: ^5.0.1
+  toml: ^0.12.0

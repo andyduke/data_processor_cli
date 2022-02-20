@@ -3,6 +3,7 @@ import 'package:data_processor/data_processor.dart';
 import 'package:data_processor/data_processor_options.dart';
 import 'package:data_processor/options/csv/input.dart';
 import 'package:data_processor/options/csv/output.dart';
+import 'package:data_processor/options/toml/output.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
@@ -30,8 +31,8 @@ class DataProcessorApp extends CliApp {
        $catCommand <filename> | $executable "<query>" [options] > output_file
 ''';
 
-  final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv'];
-  final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'template'];
+  final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'toml'];
+  final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'toml', 'template'];
 
   String query = '';
   String? inputFilename;
@@ -43,6 +44,7 @@ class DataProcessorApp extends CliApp {
 
   InputCSVOptions? inputCSVOptions;
   OutputCSVOptions? outputCSVOptions;
+  OutputTomlOptions? outputTomlOptions;
 
   static const int separatorWidth = 30;
   final ansi = Ansi(stdout.supportsAnsiEscapes);
@@ -106,6 +108,9 @@ class DataProcessorApp extends CliApp {
     parser.addSeparator(buildSeparator('CSV Output options'));
     OutputCSVOptions.cliOptions(parser);
 
+    parser.addSeparator(buildSeparator('Toml Output options'));
+    OutputTomlOptions.cliOptions(parser);
+
     parser.addSeparator(buildSeparator('Other'));
 
     parser.addFlag(
@@ -159,6 +164,10 @@ class DataProcessorApp extends CliApp {
       outputCSVOptions = OutputCSVOptions.fromArguments(arguments);
     }
 
+    if (outputFormat == 'toml') {
+      outputTomlOptions = OutputTomlOptions.fromArguments(arguments);
+    }
+
     return argsRest.isNotEmpty;
   }
 
@@ -191,6 +200,10 @@ class DataProcessorApp extends CliApp {
 
         case '.csv':
           inputFormat = 'csv';
+          break;
+
+        case '.toml':
+          inputFormat = 'toml';
           break;
 
         default:
@@ -230,6 +243,8 @@ class DataProcessorApp extends CliApp {
 
     outputCSVOptions?.displaySummary(logger.trace);
 
+    outputTomlOptions?.displaySummary(logger.trace);
+
     logger.trace('');
   }
 
@@ -247,6 +262,7 @@ class DataProcessorApp extends CliApp {
       options: DataProcessorOptions(
         inputCSV: inputCSVOptions ?? const InputCSVOptions(),
         outputCSV: outputCSVOptions ?? const OutputCSVOptions(),
+        outputToml: outputTomlOptions ?? const OutputTomlOptions(),
       ),
     );
 
