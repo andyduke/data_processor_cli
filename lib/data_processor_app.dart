@@ -21,8 +21,7 @@ class DataProcessorApp extends CliApp {
   String get catCommand => Platform.isWindows ? 'type' : 'cat';
 
   @override
-  late final String usage =
-      '''Usage: $executable "<query>" [<filename>] [options] > output_file
+  late final String usage = '''Usage: $executable "<query>" [<filename>] [options] > output_file
        $catCommand <filename> | $executable "<query>" [options] > output_file
 ''';
 
@@ -100,9 +99,9 @@ class DataProcessorApp extends CliApp {
           inputFormat = 'yaml';
           break;
 
-        case '.xml':
-          inputFormat = 'xml';
-          break;
+        // case '.xml':
+        //   inputFormat = 'xml';
+        //   break;
 
         case '.csv':
           inputFormat = 'csv';

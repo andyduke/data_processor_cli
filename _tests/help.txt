@@ -11,9 +11,9 @@ Options:
   
   -i, --input=<format>                    Input format (default: detect from
                                           filename extension)
-                                          [json, yaml, xml, csv, toml]
+                                          [json, yaml, csv, toml]
   -o, --output=<format>                   Output format (default: input format)
-                                          [json, yaml, xml, csv, toml, template]
+                                          [json, yaml, csv, toml, template]
   -n, --indent=<indent>                   Output indent
                                           (defaults to "2")
   -f, --output-file=<file>                Output to <file> instead of stdout

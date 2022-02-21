@@ -16,8 +16,10 @@ class DataProcessorOptions implements SummaryOutput {
   static const int separatorWidth = 30;
   static final ansi = Ansi(stdout.supportsAnsiEscapes);
 
-  static final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'toml'];
-  static final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'toml', 'template'];
+  // static final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'toml'];
+  // static final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'toml', 'template'];
+  static final List<String> inputFormats = ['json', 'yaml', 'csv', 'toml'];
+  static final List<String> outputFormats = ['json', 'yaml', 'csv', 'toml', 'template'];
 
   final String query;
   final String? inputFilename;
@@ -145,7 +147,9 @@ class DataProcessorOptions implements SummaryOutput {
     }
     // out(' - Input format: $inputFormat');
 
-    inputCSV.displaySummary(out);
+    if (inputFormat == 'csv') {
+      inputCSV.displaySummary(out);
+    }
 
     if (outputFilename == null) {
       out(' - Output: stdout ($outputFormat)');
@@ -153,11 +157,18 @@ class DataProcessorOptions implements SummaryOutput {
       out(' - Output: $outputFilename ($outputFormat)');
     }
     // out(' - Output format: $outputFormat');
-    out(' - Output indent: $outputIndent');
 
-    outputCSV.displaySummary(out);
+    if (['json', 'yaml'].contains(outputFormat)) {
+      out(' - Output indent: $outputIndent');
+    }
 
-    outputToml.displaySummary(out);
+    if (outputFormat == 'csv') {
+      outputCSV.displaySummary(out);
+    }
+
+    if (outputFormat == 'toml') {
+      outputToml.displaySummary(out);
+    }
 
     out('');
   }
