@@ -1,6 +1,7 @@
 import 'package:data_processor/formatters/csv_formatter.dart';
 import 'package:data_processor/formatters/json_formatter.dart';
 import 'package:data_processor/formatters/toml_formatter.dart';
+import 'package:data_processor/formatters/xml_formatter.dart';
 import 'package:data_processor/formatters/yaml_formatter.dart';
 import 'package:test/test.dart';
 import 'package:toml/toml.dart';
@@ -134,6 +135,73 @@ ip = '10.0.0.2'
 dc = 'eqdc10'
 ''';
     final formatter = TomlFormatter(tomlData, 2);
+    final result = await formatter.format();
+
+    expect(result, data);
+  });
+
+  test('XML', () async {
+    final xmlData = {
+      'root': {
+        'items': {
+          'text': 'Plain text',
+          'letter': ['A', 'B'],
+          'empty': {},
+          'group': {
+            'item': [
+              {
+                '@name': 'caption',
+                '#text': 'Caption 1',
+              },
+              {
+                '@name': 'url',
+                '#text': 'https://www.google.com',
+              },
+            ],
+          },
+          'item': [
+            {
+              '@type': 'text',
+              '#text': 'Text',
+            },
+            {
+              '@type': 'sample',
+              '#text': 'Item 2',
+            },
+          ],
+          'data': {
+            '@name': 'test',
+            '#cdata': '''
+
+        cdata
+      ''',
+          },
+        },
+      },
+    };
+
+    final data = '''<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <items>
+    <text>Plain text</text>
+    <letter>A</letter>
+    <letter>B</letter>
+    <empty/>
+    <group>
+      <item name="caption">Caption 1</item>
+      <item name="url">https://www.google.com</item>
+    </group>
+    <item type="text">Text</item>
+    <item type="sample">Item 2</item>
+    <data name="test">
+      <![CDATA[
+        cdata
+      ]]>
+    </data>
+  </items>
+</root>''';
+
+    final formatter = XMLFormatter(xmlData, 2, eol: '\n');
     final result = await formatter.format();
 
     expect(result, data);

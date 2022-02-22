@@ -7,6 +7,8 @@ import 'package:data_processor/options/csv/input.dart';
 import 'package:data_processor/options/csv/output.dart';
 import 'package:data_processor/options/summary_output.dart';
 import 'package:data_processor/options/toml/output.dart';
+import 'package:data_processor/options/xml/input.dart';
+import 'package:data_processor/options/xml/output.dart';
 
 class DataProcessorOptions implements SummaryOutput {
   static const String defaultQuery = '';
@@ -16,10 +18,8 @@ class DataProcessorOptions implements SummaryOutput {
   static const int separatorWidth = 30;
   static final ansi = Ansi(stdout.supportsAnsiEscapes);
 
-  // static final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'toml'];
-  // static final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'toml', 'template'];
-  static final List<String> inputFormats = ['json', 'yaml', 'csv', 'toml'];
-  static final List<String> outputFormats = ['json', 'yaml', 'csv', 'toml', 'template'];
+  static final List<String> inputFormats = ['json', 'yaml', 'xml', 'csv', 'toml'];
+  static final List<String> outputFormats = ['json', 'yaml', 'xml', 'csv', 'toml', 'template'];
 
   final String query;
   final String? inputFilename;
@@ -32,6 +32,8 @@ class DataProcessorOptions implements SummaryOutput {
   final InputCSVOptions inputCSV;
   final OutputCSVOptions outputCSV;
   final OutputTomlOptions outputToml;
+  final InputXMLOptions inputXML;
+  final OutputXMLOptions outputXML;
 
   const DataProcessorOptions({
     this.query = defaultQuery,
@@ -46,6 +48,8 @@ class DataProcessorOptions implements SummaryOutput {
     this.inputCSV = const InputCSVOptions(),
     this.outputCSV = const OutputCSVOptions(),
     this.outputToml = const OutputTomlOptions(),
+    this.inputXML = const InputXMLOptions(),
+    this.outputXML = const OutputXMLOptions(),
   }) : outputFormat = outputFormat ?? inputFormat;
 
   DataProcessorOptions.fromArguments({
@@ -65,7 +69,9 @@ class DataProcessorOptions implements SummaryOutput {
         // Nested Options
         inputCSV = InputCSVOptions.fromArguments(arguments),
         outputCSV = OutputCSVOptions.fromArguments(arguments),
-        outputToml = OutputTomlOptions.fromArguments(arguments);
+        outputToml = OutputTomlOptions.fromArguments(arguments),
+        inputXML = InputXMLOptions.fromArguments(arguments),
+        outputXML = OutputXMLOptions.fromArguments(arguments);
 
   static String buildSeparator(String text) {
     final len = text.length;
@@ -126,6 +132,12 @@ class DataProcessorOptions implements SummaryOutput {
     parser.addSeparator(buildSeparator('Toml Output options'));
     OutputTomlOptions.cliOptions(parser);
 
+    parser.addSeparator(buildSeparator('XML Input options'));
+    InputXMLOptions.cliOptions(parser);
+
+    parser.addSeparator(buildSeparator('XML Output options'));
+    OutputXMLOptions.cliOptions(parser);
+
     parser.addSeparator(buildSeparator('Other'));
 
     parser.addFlag(
@@ -151,6 +163,12 @@ class DataProcessorOptions implements SummaryOutput {
       inputCSV.displaySummary(out);
     }
 
+    if (inputFormat == 'xml') {
+      inputXML.displaySummary(out);
+    }
+
+    // ---
+
     if (outputFilename == null) {
       out(' - Output: stdout ($outputFormat)');
     } else {
@@ -168,6 +186,10 @@ class DataProcessorOptions implements SummaryOutput {
 
     if (outputFormat == 'toml') {
       outputToml.displaySummary(out);
+    }
+
+    if (outputFormat == 'xml') {
+      outputXML.displaySummary(out);
     }
 
     out('');

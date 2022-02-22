@@ -386,6 +386,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  xml_map_converter:
+    dependency: "direct main"
+    description:
+      path: "../local_packages/xml_map_converter/package"
+      relative: true
+    source: path
+    version: "1.0.0"
+  xmlstream:
+    dependency: transitive
+    description:
+      name: xmlstream
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   yaml:
     dependency: "direct main"
     description:

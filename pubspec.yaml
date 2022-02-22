@@ -25,3 +25,5 @@ dependencies:
     path: ../local_packages/yaml_writer
   csv: ^5.0.1
   toml: ^0.12.0
+  xml_map_converter:
+    path: ../local_packages/xml_map_converter/package

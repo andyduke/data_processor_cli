@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:data_processor/parsers/csv_parser.dart';
 import 'package:data_processor/parsers/json_parser.dart';
 import 'package:data_processor/parsers/toml_parser.dart';
+import 'package:data_processor/parsers/xml_parser.dart';
 import 'package:data_processor/parsers/yaml_parser.dart';
 import 'package:test/test.dart';
 import 'package:toml/toml.dart';
@@ -148,5 +149,78 @@ enabled = true
     // print('$result');
 
     expect(result, tomlData);
+  });
+
+  test('XML', () async {
+    final xmlData = {
+      'root': {
+        'items': {
+          'text': 'Plain text',
+          'letter': ['A', 'B'],
+          'empty': {},
+          'group': {
+            'item': [
+              {
+                '@name': 'caption',
+                '#text': 'Caption 1',
+              },
+              {
+                '@name': 'url',
+                '#text': 'https://www.google.com',
+              },
+            ],
+          },
+          'item': [
+            {
+              '@type': 'text',
+              '#text': 'Text',
+            },
+            {
+              '@type': 'sample',
+              '#text': 'Item 2',
+            },
+          ],
+          'data': {
+            '@name': 'test',
+            '#cdata': '''
+
+        cdata
+      ''',
+          },
+        },
+      },
+    };
+
+    final data = '''<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <items>
+    <text>Plain text</text>
+    <letter>A</letter>
+    <letter>B</letter>
+    <empty/>
+    <group>
+      <item name="caption">Caption 1</item>
+      <item name="url">https://www.google.com</item>
+    </group>
+    <item type="text">
+      Text
+    </item>
+    <data name="test">
+      <![CDATA[
+        cdata
+      ]]>
+    </data>
+    <item type="sample">
+      Item 2
+    </item>
+  </items>
+</root>''';
+
+    final parser = XMLParser(data);
+    final result = await parser.parse();
+
+    // print('$result');
+
+    expect(result, xmlData);
   });
 }

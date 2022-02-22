@@ -9,57 +9,96 @@ Options:
   
   --- Input and Output ---------
   
-  -i, --input=<format>                    Input format (default: detect from
-                                          filename extension)
-                                          [json, yaml, csv, toml]
-  -o, --output=<format>                   Output format (default: input format)
-                                          [json, yaml, csv, toml, template]
-  -n, --indent=<indent>                   Output indent
-                                          (defaults to "2")
-  -f, --output-file=<file>                Output to <file> instead of stdout
-  -t, --template=<template file>          Output template file (output=template
-                                          only)
+  -i, --input=<format>                          Input format (default: detect
+                                                from filename extension)
+                                                [json, yaml, xml, csv, toml]
+  -o, --output=<format>                         Output format (default: input
+                                                format)
+                                                [json, yaml, xml, csv, toml,
+                                                template]
+  -n, --indent=<indent>                         Output indent
+                                                (defaults to "2")
+  -f, --output-file=<file>                      Output to <file> instead of
+                                                stdout
+  -t, --template=<template file>                Output template file
+                                                (output=template only)
   
   
   --- CSV Input options --------
   
-      --input-csv-col-sep=<separator>     CSV column separator
-                                          (defaults to ",")
-      --input-csv-row-sep=<separator>     CSV row separator
-                                          (defaults to "<cr><lf>")
-      --input-csv-text-quote=<quote>      CSV text quote character
-                                          (defaults to """)
-      --input-csv-headers=<headers>       Headers of CSV data
-                                          (example "field 1","field 2")
-      --input-csv-flat-headers            Don't interpret dots (.) and square
-                                          brackets in header fields as nested
-                                          object or array identifiers at all
+      --input-csv-col-sep=<separator>           CSV column separator
+                                                (defaults to ",")
+      --input-csv-row-sep=<separator>           CSV row separator
+                                                (defaults to "<cr><lf>")
+      --input-csv-text-quote=<quote>            CSV text quote character
+                                                (defaults to """)
+      --input-csv-headers=<headers>             Headers of CSV data
+                                                (example "field 1","field 2")
+      --input-csv-flat-headers                  Don't interpret dots (.) and
+                                                square brackets in header fields
+                                                as nested object or array
+                                                identifiers at all
   
   
   --- CSV Output options -------
   
-      --output-csv-col-sep=<separator>    CSV column separator
-                                          (defaults to ",")
-      --output-csv-row-sep=<separator>    CSV row separator
-                                          (defaults to "<cr><lf>")
-      --output-csv-text-quote=<quote>     CSV text quote character
-                                          (defaults to """)
-      --output-csv-headers=<headers>      Header columns in order
-                                          (example "field 1","field 2")
+      --output-csv-col-sep=<separator>          CSV column separator
+                                                (defaults to ",")
+      --output-csv-row-sep=<separator>          CSV row separator
+                                                (defaults to "<cr><lf>")
+      --output-csv-text-quote=<quote>           CSV text quote character
+                                                (defaults to """)
+      --output-csv-headers=<headers>            Header columns in order
+                                                (example "field 1","field 2")
   
   
   --- Toml Output options ------
   
-      --output-toml-root=<root>           The name of the root element if the
-                                          data is not a dictionary.
-                                          (defaults to "toml")
+      --output-toml-root=<root>                 The name of the root element if
+                                                the data is not a dictionary.
+                                                (defaults to "toml")
+  
+  
+  --- XML Input options --------
+  
+      --input-xml-attr-prefix=<prefix>          Prefix denoting "key-attribute".
+                                                (defaults to "@")
+      --input-xml-text-node=<name>              The name of the key for the
+                                                content of the xml node.
+                                                (defaults to "#text")
+      --input-xml-cdata-node=<name>             The name of the key for the
+                                                content of the CDATA xml node.
+                                                (defaults to "#cdata")
+  
+  
+  --- XML Output options -------
+  
+      --output-xml-declaration=<declaration>    The XML declaration is a
+                                                processing instruction that
+                                                identifies the document as being
+                                                XML. Set to the empty string to
+                                                omit the declaration.
+                                                (defaults to "<?xml
+                                                version="1.0"
+                                                encoding="UTF-8"?>")
+      --output-xml-root-node=<node>             The name of the root tag if the
+                                                data is not a dictionary.
+                                                (defaults to "root")
+      --output-xml-attr-prefix=<prefix>         Prefix denoting "key-attribute".
+                                                (defaults to "@")
+      --output-xml-text-node=<name>             The name of the key for the
+                                                content of the xml node.
+                                                (defaults to "#text")
+      --output-xml-cdata-node=<name>            The name of the key for the
+                                                content of the CDATA xml node.
+                                                (defaults to "#cdata")
   
   
   --- Other --------------------
   
-  -h, --help                              Print this usage information
-  -s, --silent                            Silent output
-  -v, --verbose                           Verbose output
-      --version                           Prints the version of the
-                                          DataProcessor
+  -h, --help                                    Print this usage information
+  -s, --silent                                  Silent output
+  -v, --verbose                                 Verbose output
+      --version                                 Prints the version of the
+                                                DataProcessor
   

@@ -54,9 +54,14 @@ class DataProcessor {
         parser = YamlParser(data);
         break;
 
-      // case 'xml':
-      //   parser = XMLParser(data);
-      //   break;
+      case 'xml':
+        parser = XMLParser(
+          data,
+          attrPrefix: options.inputXML.attrPrefix,
+          textNode: options.inputXML.textNode,
+          cdataNode: options.inputXML.cdataNode,
+        );
+        break;
 
       case 'csv':
         parser = CSVParser(
@@ -92,9 +97,17 @@ class DataProcessor {
         formatter = YamlFormatter(data, outputIndent);
         break;
 
-      // case 'xml':
-      //   formatter = XMLFormatter(data, outputIndent);
-      //   break;
+      case 'xml':
+        formatter = XMLFormatter(
+          data,
+          outputIndent,
+          declaration: options.outputXML.declaration,
+          rootNode: options.outputXML.rootNode,
+          attrPrefix: options.outputXML.attrPrefix,
+          textNode: options.outputXML.textNode,
+          cdataNode: options.outputXML.cdataNode,
+        );
+        break;
 
       case 'csv':
         formatter = CSVFormatter(

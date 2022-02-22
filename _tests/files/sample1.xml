@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <items>
+    <text>Plain text</text>
+    <letter>A</letter>
+    <letter>B</letter>
+    <empty/>
+    <group>
+      <item name="caption">Caption 1</item>
+      <item name="url">https://www.google.com</item>
+    </group>
+    <item type="text">
+      Text
+    </item>
+    <data name="test">
+      <![CDATA[
+        cdata
+      ]]>
+    </data>
+    <item type="sample">
+      Item 2
+    </item>
+  </items>
+</root>
