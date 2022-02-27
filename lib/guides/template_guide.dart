@@ -5,7 +5,7 @@ class TemplateGuide extends Guide {
   final String text = r'''
 # Template Guide
 
-todo...
+See [](https://docs.djangoproject.com/en/4.0/ref/templates/language/) for more details.
 ''';
 
   TemplateGuide(

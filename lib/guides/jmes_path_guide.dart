@@ -3,9 +3,9 @@ import 'package:data_processor/guides/guide.dart';
 class JMESPathGuide extends Guide {
   @override
   final String text = r'''
-# JMES Guide
+# JMESPath Guide
 
-todo...
+See [](https://jmespath.org/tutorial.html) for more details.
 ''';
 
   JMESPathGuide(
