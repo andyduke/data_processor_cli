@@ -1,6 +1,14 @@
 import 'dart:io';
+import 'package:data_processor/commands/command.dart';
+import 'package:data_processor/commands/commands.dart';
+import 'package:data_processor/commands/option.dart';
 import 'package:data_processor/data_processor.dart';
+import 'package:data_processor/guides/data_processor_guide.dart';
+import 'package:data_processor/guides/jmes_path_guide.dart';
+import 'package:data_processor/guides/template_guide.dart';
+import 'package:data_processor/markdown.dart';
 import 'package:data_processor/options/data_processor_options.dart';
+import 'package:io/ansi.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:data_processor/cli_app.dart';
 import 'package:path/path.dart' as p;
@@ -16,13 +24,22 @@ class DataProcessorApp extends CliApp {
   final String copyright = 'Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>';
 
   @override
-  String get description => 'Flexible command-line data processor.';
+  // String get description => 'Flexible command-line data processor.';
+  String get description =>
+      '''The Data Processor is a tool for converting structured data from one format to another, with the ability to select a portion of a piece of data to convert, or use a template to compose the result.
+
+Supported input and output formats: JSON, Yaml, XML, CSV, TOML.
+
+The output can be generated using a template language similar to [django/liquid template language](https://docs.djangoproject.com/en/4.0/ref/templates/language/).
+
+It is possible to select only a portion of the input data using the [JMESPath](https://jmespath.org/) query language.
+
+For more information, use the **--guide**, **--jmespath-guide** and **--template-guide** options.''';
 
   String get catCommand => Platform.isWindows ? 'type' : 'cat';
 
   @override
-  late final String usage =
-      '''Usage: $executable "<query>" [<filename>] [options] > output_file
+  late final String usage = '''Usage: $executable "<query>" [<filename>] [options] > output_file
        $catCommand <filename> | $executable "<query>" [options] > output_file
 ''';
 
@@ -31,23 +48,82 @@ class DataProcessorApp extends CliApp {
   String inputFormat = DataProcessorOptions.defaultInputFormat;
   String outputFormat = DataProcessorOptions.defaultOutputFormat;
   DataProcessorOptions? options;
+  late MiniCommands commands;
 
   DataProcessorApp([List<String> args = const []]) : super(args);
 
   @override
   void setupOptions() {
-    DataProcessorOptions.cliOptions(parser);
+    commands = MiniCommands(
+      commands: [
+        MiniCommand(
+          name: 'guide',
+          description: 'Print the Data Processor Guide in text or markdown format',
+          runner: (options) =>
+              DataProcessorGuide(logger.write, intro: () => introText).display(options['guide-format'] ?? 'text'),
+        ),
+        MiniCommand(
+          name: 'jmespath-guide',
+          description: 'Print the JMSPath Guide in text or markdown format',
+          runner: (options) =>
+              JMESPathGuide(logger.write, intro: () => introText).display(options['guide-format'] ?? 'text'),
+        ),
+        MiniCommand(
+          name: 'template-guide',
+          description: 'Print the Template Guide in text or markdown format',
+          runner: (options) =>
+              TemplateGuide(logger.write, intro: () => introText).display(options['guide-format'] ?? 'text'),
+        ),
+      ],
+      options: [
+        MiniCommandOption(
+          name: 'guide-format',
+          description: 'Guide format',
+          allowed: ['text', 'md'],
+          defaultsTo: 'text',
+          valueHelp: 'format',
+        ),
+      ],
+    );
+
+    DataProcessorOptions.cliOptions(parser: parser, commands: commands);
   }
 
   @override
   void displayIntro() {
     if (!ready) {
-      super.displayIntro();
+      displayIntroText();
     } else {
       if (verbose) {
-        super.displayIntro();
+        displayIntroText();
       }
     }
+  }
+
+  String get introText {
+    final buffer = StringBuffer();
+
+    if (stdout.supportsAnsiEscapes) {
+      buffer.write(white.escape);
+    }
+    buffer.write(intro);
+    if (stdout.supportsAnsiEscapes) {
+      buffer.write(resetAll.escape);
+    }
+    buffer.writeln();
+    buffer.writeln();
+
+    return buffer.toString();
+  }
+
+  void displayIntroText() {
+    logger.write(introText);
+  }
+
+  @override
+  void displayDescription() {
+    final text = renderMarkdown(description);
+    logger.write('$text\n');
   }
 
   @override
@@ -67,6 +143,13 @@ class DataProcessorApp extends CliApp {
     }
 
     return argsRest.isNotEmpty;
+  }
+
+  @override
+  void handleFlags() {
+    if (commands.run(arguments)) {
+      exitApp(ExitCode.usage.code);
+    }
   }
 
   @override

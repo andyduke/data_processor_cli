@@ -48,6 +48,7 @@ abstract class CliApp {
     setupLogger();
 
     handleVersion();
+    handleFlags();
   }
 
   void setupOptions();
@@ -89,18 +90,30 @@ abstract class CliApp {
   }
 
   void handleVersion() {
-    if (arguments['version']) {
+    if (arguments.wasParsed('version')) {
       displayVersion();
       exitApp(ExitCode.usage.code - 1);
     }
   }
 
+  void handleFlags() {}
+
+  // void displayIntroAndDescription() {
+  //   if (!silent) {
+  //     displayIntro();
+  //     if (!silent) {
+  //       displayDescription();
+  //     }
+  //   }
+  // }
+
   void displayIntro() {
-    if (!silent) {
-      logger.write('$intro\n\n');
-      if (description != null) {
-        logger.write('$description\n\n');
-      }
+    logger.write('$intro\n\n');
+  }
+
+  void displayDescription() {
+    if (description != null) {
+      logger.write('$description\n\n');
     }
   }
 
@@ -126,9 +139,14 @@ ${_indent('${parser.usage}\n', indent: usageIndent)}
   Future<int> runApp();
 
   Future<void> run() async {
-    displayIntro();
+    if (!silent) {
+      displayIntro();
+    }
 
     if (!ready) {
+      if (!silent) {
+        displayDescription();
+      }
       displayUsage();
       return;
     }

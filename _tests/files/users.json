@@ -1,0 +1,16 @@
+{
+  "users": {
+    "user": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "role": "user"
+      },
+      {
+        "id": 2,
+        "name": "Richard Roe",
+        "role": "admin"
+      }
+    ]
+  }
+}

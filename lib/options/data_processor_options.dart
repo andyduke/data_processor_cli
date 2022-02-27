@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart';
 
 import 'package:args/args.dart';
+import 'package:data_processor/commands/commands.dart';
 import 'package:data_processor/data_processor.dart';
 import 'package:data_processor/options/csv/input.dart';
 import 'package:data_processor/options/csv/output.dart';
@@ -80,7 +81,10 @@ class DataProcessorOptions implements SummaryOutput {
     return result;
   }
 
-  static void cliOptions(ArgParser parser) {
+  static void cliOptions({
+    required ArgParser parser,
+    MiniCommands? commands,
+  }) {
     parser.addSeparator(buildSeparator('Input and Output'));
 
     parser.addOption(
@@ -146,6 +150,34 @@ class DataProcessorOptions implements SummaryOutput {
       help: 'Print this usage information',
       negatable: false,
     );
+
+    commands?.addOptions(parser);
+
+    /*
+    parser.addOption(
+      'guide',
+      help: 'Print the Data Processor Guide in text or markdown format',
+      allowed: ['text', 'md'],
+      defaultsTo: 'text',
+      valueHelp: 'format',
+    );
+
+    parser.addOption(
+      'jmespath-guide',
+      help: 'Print the JMSPath Guide in text or markdown format',
+      allowed: ['text', 'md'],
+      defaultsTo: 'text',
+      valueHelp: 'format',
+    );
+
+    parser.addOption(
+      'template-guide',
+      help: 'Print the Template Guide in text or markdown format',
+      allowed: ['text', 'md'],
+      defaultsTo: 'text',
+      valueHelp: 'format',
+    );
+    */
   }
 
   @override

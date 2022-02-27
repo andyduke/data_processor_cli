@@ -1,6 +1,13 @@
 DataProcessor 1.0, Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>
 
-Flexible command-line data processor.
+The Data Processor is a tool for converting structured data from one format to another, with the ability to select a portion of a piece of data to convert, or use a template to compose the result.
+
+Supported input and output formats: JSON, Yaml, XML, CSV, TOML.
+
+The output can be generated using a template language similar to django/liquid template language (https://docs.djangoproject.com/en/4.0/ref/templates/language/).
+
+It is possible to select only a portion of the input data using the JMESPath (https://jmespath.org/) query language.
+
 
 Usage: dart "<query>" [<filename>] [options] > output_file
        type <filename> | dart "<query>" [options] > output_file

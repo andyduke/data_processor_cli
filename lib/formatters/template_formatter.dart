@@ -76,7 +76,7 @@ class WithPathBlock extends liquid.Block {
   }
 }
 
-dynamic JmesQueryFilter(dynamic input, List args) {
+dynamic jmesQueryFilter(dynamic input, List args) {
   if (args.isEmpty) return input;
   final path = '${args.first}';
   final data = jmespath.search(path, input);
@@ -93,7 +93,7 @@ class TemplateFormatter extends DataFormatter {
     final context = liquid.Context.create();
     context.tags['by_path'] = liquid.BlockParser.simple(JmesPathBlock.factory);
     context.tags['with'] = liquid.BlockParser.simple(WithPathBlock.factory);
-    context.filters['query'] = JmesQueryFilter;
+    context.filters['query'] = jmesQueryFilter;
 
     if (data is Map) {
       context.variables.addAll(data);

@@ -169,6 +169,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
+  markdown_ansi_renderer:
+    dependency: "direct main"
+    description:
+      path: "../../markdown_ansi_renderer/package"
+      relative: true
+    source: path
+    version: "1.0.0"
   matcher:
     dependency: transitive
     description:

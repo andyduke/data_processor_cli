@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  <user id="1">
+    <name>John Doe</name>
+  </user>
+  <user id="2">
+    <name>Richard Roe</name>
+  </user>
+</users>
