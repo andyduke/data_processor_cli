@@ -29,3 +29,4 @@ dependencies:
     path: ../local_packages/xml_map_converter/package
   markdown_ansi_renderer:
     path: ../../markdown_ansi_renderer/package
+  markdown: ^4.0.1

@@ -2,6 +2,9 @@ import 'package:data_processor/guides/guide.dart';
 
 class DataProcessorGuide extends Guide {
   @override
+  final String title = 'Data Processor Guide';
+
+  @override
   final String text = r'''
 # Data Processor Guide
 

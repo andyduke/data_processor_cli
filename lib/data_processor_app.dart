@@ -79,7 +79,7 @@ For more information, use the **--guide**, **--jmespath-guide** and **--template
         MiniCommandOption(
           name: 'guide-format',
           description: 'Guide format',
-          allowed: ['text', 'md'],
+          allowed: ['text', 'md', 'html'],
           defaultsTo: 'text',
           valueHelp: 'format',
         ),
@@ -122,7 +122,7 @@ For more information, use the **--guide**, **--jmespath-guide** and **--template
 
   @override
   void displayDescription() {
-    final text = renderMarkdown(description);
+    final text = renderMarkdownToANSI(description);
     logger.write('$text\n');
   }
 

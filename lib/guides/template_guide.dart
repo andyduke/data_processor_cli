@@ -2,6 +2,9 @@ import 'package:data_processor/guides/guide.dart';
 
 class TemplateGuide extends Guide {
   @override
+  final String title = 'Template Guide';
+
+  @override
   final String text = r'''
 # Template Guide
 
