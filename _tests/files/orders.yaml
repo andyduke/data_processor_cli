@@ -1,0 +1,12 @@
+account:
+  name: Classic Cars
+  customerName: John Doe
+  orders:
+  - orderId: 1
+    productId: C6
+    productName: Corvette C6
+    price: 45849
+  - orderId: 2
+    productId: M4
+    productName: Morgan Plus 4
+    price: 69995
