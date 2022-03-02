@@ -1,6 +1,8 @@
 import 'package:data_processor/formatters/formatter.dart';
+import 'package:data_processor/utils/yaml_utils.dart';
 import 'package:liquid_engine/liquid_engine.dart' as liquid;
 import 'package:jmespath/jmespath.dart' as jmespath;
+import 'package:yaml/yaml.dart';
 
 class JmesPathBlock extends liquid.Block {
   String? expression;
@@ -97,7 +99,10 @@ class TemplateFormatter extends DataFormatter {
 
     if (data is Map) {
       context.variables.addAll(data);
+    } else {
+      context.variables['value'] = data;
     }
+
     final tplSource = liquid.Source.fromString(template);
     final templater = liquid.Template.parse(context, tplSource);
     final result = await templater.render(context);

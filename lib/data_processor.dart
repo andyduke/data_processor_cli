@@ -12,7 +12,9 @@ import 'package:data_processor/parsers/parser.dart';
 import 'package:data_processor/parsers/toml_parser.dart';
 import 'package:data_processor/parsers/xml_parser.dart';
 import 'package:data_processor/parsers/yaml_parser.dart';
+import 'package:data_processor/utils/yaml_utils.dart';
 import 'package:jmespath/jmespath.dart' as jmespath;
+import 'package:yaml/yaml.dart';
 
 class DataProcessor {
   static const int defaultOutputIndent = DataFormatter.defaultIndent;
@@ -87,6 +89,10 @@ class DataProcessor {
   }
 
   Future<String> _formatOutput(dynamic data) async {
+    if (data is YamlNode) {
+      data = data.toDynamic();
+    }
+
     late DataFormatter formatter;
     switch (outputFormat) {
       case 'json':
