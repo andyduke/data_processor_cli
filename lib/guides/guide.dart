@@ -26,7 +26,7 @@ abstract class Guide {
     if (format == 'md') {
       result = text;
     } else if (format == 'html') {
-      // TODO: Prepend CSS & HTML prologue
+      // Prepend CSS & HTML prologue
 
       header = '''
 <!DOCTYPE html>
