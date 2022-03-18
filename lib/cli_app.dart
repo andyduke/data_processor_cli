@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:data_processor/usage_exception.dart';
 import 'package:io/io.dart' show ExitCode;
 import 'package:cli_util/cli_logging.dart';
 import 'package:args/args.dart';
@@ -15,6 +16,18 @@ abstract class CliApp {
 
   String? _executable;
   String get executable => _executable ??= p.basenameWithoutExtension(Platform.executable);
+
+  String get usageWithoutDescription => '''$usage
+Options:
+${_indent('${parser.usage}\n', indent: usageIndent)}
+''';
+
+  /// Throws a [UsageException] with [message].
+  Never usageException(String message) => throw UsageException(
+        message: message,
+        heading: intro,
+        usage: usageWithoutDescription,
+      );
 
   // ---
 
@@ -40,7 +53,8 @@ abstract class CliApp {
     setupDefaultOptions();
 
     // Parse args
-    arguments = parser.parse(args);
+    arguments = _parse(args);
+
     argsRest = arguments.rest.toList(growable: true);
 
     ready = handleArguments();
@@ -49,6 +63,14 @@ abstract class CliApp {
 
     handleVersion();
     handleFlags();
+  }
+
+  ArgResults _parse(Iterable<String> args) {
+    try {
+      return parser.parse(args);
+    } on ArgParserException catch (error) {
+      usageException(error.message);
+    }
   }
 
   void setupOptions();
@@ -118,12 +140,7 @@ abstract class CliApp {
   }
 
   void displayUsage() {
-    final usageText = '''$usage
-Options:
-${_indent('${parser.usage}\n', indent: usageIndent)}
-''';
-
-    logger.write(usageText);
+    logger.write(usageWithoutDescription);
 
     exitApp(ExitCode.usage.code);
   }
