@@ -1,6 +1,4 @@
-DataProcessor 1.0, Copyright (C) 2022 Andy Chentsov <chentsov@gmail.com>
-
-# Data Processor Guide
+# Data Processor
 
 The Data Processor is a tool for converting structured data from one format to another, with the ability to select a portion of a piece of data to convert, or use a template to compose the result.
 
@@ -12,9 +10,13 @@ It is possible to select only a portion of the input data using the [JMESPath](h
 
 ## Usage
 
-`dp "<query>" [<filename>] [options] > output_file`
+```
+dp "<query>" [<filename>] [options] > output_file
+```
 or
-`type <filename> | dp "<query>" [options] > output_file`
+```
+type <filename> | dp "<query>" [options] > output_file
+```
 
 The *query* is a JMESPath.
 
