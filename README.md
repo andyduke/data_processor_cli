@@ -9,8 +9,8 @@ Flexible command-line data processor.
 - [x] Input/Output format: TOML
 - [x] Refactor options (like CSV Input/Output options)
 - [x] Template: get value using jmespath
-- [+] Help: Description
-- [ ] Help: JMESPath guide
-- [+] Help: Template guide
-- [ ] Unknown option exception handler
+- [x] Help: Description
+- [x] Help: JMESPath guide
+- [x] Help: Template guide
+- [x] Unknown option exception handler
 - [ ] GitHub: Readme & Template guide

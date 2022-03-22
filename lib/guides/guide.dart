@@ -50,7 +50,7 @@ abstract class Guide {
 
       result = renderMarkdownToHTML(text);
     } else {
-      result = renderMarkdownToANSI(text).trim();
+      result = renderMarkdownToANSI(text).trim() + "\r\n";
     }
 
     // ---
