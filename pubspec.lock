@@ -193,9 +193,11 @@ packages:
   markdown_ansi_renderer:
     dependency: "direct main"
     description:
-      path: "../../markdown_ansi_renderer/package"
-      relative: true
-    source: path
+      path: package
+      ref: HEAD
+      resolved-ref: a073e5dffc78dbfa8675d8126d48545afa22b4ba
+      url: "https://github.com/andyduke/markdown_ansi_renderer.git"
+    source: git
     version: "1.0.0"
   matcher:
     dependency: transitive
@@ -445,9 +447,11 @@ packages:
   yaml_writer:
     dependency: "direct main"
     description:
-      path: "../local_packages/yaml_writer"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "8f57aee34f87dfd984338294816c21c008902ee7"
+      url: "https://github.com/andyduke/yaml_writer.git"
+    source: git
     version: "1.0.1"
 sdks:
   dart: ">=2.15.1 <3.0.0"
