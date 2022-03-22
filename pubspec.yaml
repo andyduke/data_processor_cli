@@ -13,21 +13,24 @@ dev_dependencies:
 
 dependencies: 
   liquid_engine: ^0.2.2
-  jmespath:
-    path: ../local_packages/jmespath
+  jmespath: ^2.0.1
   args: ^2.3.0
   io: ^1.0.3
   json2yaml: ^3.0.0
   yaml: ^3.1.0
   pretty_json: ^2.0.0
-  #yaml_writer: ^1.0.1
   yaml_writer:
-    path: ../local_packages/yaml_writer
+    git: https://github.com/andyduke/yaml_writer.git
   csv: ^5.0.1
   toml: ^0.12.0
-  xml_map_converter:
-    path: ../local_packages/xml_map_converter/package
+  xml_map_converter: ^1.0.0+1
   markdown_ansi_renderer:
-    path: ../../markdown_ansi_renderer/package
+    git: https://github.com/andyduke/markdown_ansi_renderer.git
   markdown: ^4.0.1
   barbecue: ^0.4.0
+
+dependency_overrides:
+  yaml_writer:
+    path: ../local_packages/yaml_writer
+  markdown_ansi_renderer:
+    path: ../../markdown_ansi_renderer/package

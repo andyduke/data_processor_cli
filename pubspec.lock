@@ -144,10 +144,10 @@ packages:
   jmespath:
     dependency: "direct main"
     description:
-      path: "../local_packages/jmespath"
-      relative: true
-    source: path
-    version: "1.0.4"
+      name: jmespath
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   js:
     dependency: transitive
     description:
@@ -424,9 +424,9 @@ packages:
   xml_map_converter:
     dependency: "direct main"
     description:
-      path: "../local_packages/xml_map_converter/package"
-      relative: true
-    source: path
+      name: xml_map_converter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.0+1"
   xmlstream:
     dependency: transitive
