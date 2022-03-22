@@ -18,6 +18,14 @@ It is possible to select only a portion of the input data using the [JMESPath](h
 
 ## Usage
 
+`dp "<query>" [<filename>] [options] > output_file`
+or
+`type <filename> | dp "<query>" [options] > output_file`
+
+The *query* is a JMESPath.
+
+You can find out all the options using the **--help** parameter.
+
 ### JMESPath
 
 In the Data Processor, the JMESPath must be passed as the first parameter to extract a chunk from the input data.
